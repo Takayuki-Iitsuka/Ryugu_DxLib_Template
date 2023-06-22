@@ -1,6 +1,7 @@
 // game.cpp
 #include "game.h"
 #include "key.h"
+#include "mouse.h"
 
 //グローバル変数
 
@@ -55,7 +56,8 @@ void TitleProc(void)
 	AppSceneFrameCount[NowAppScene]++;
 
 	//シーン切り替え
-	if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
+	//if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
+	if (MouseDown(MOUSE_INPUT_LEFT) == TRUE //マウスの左ボタンが押されたとき
 		&& AppSceneFrameCount[NowAppScene] >= AppSceneChangeFrame) //かつ、切り替え可能なフレーム数を超えたら
 	{
 		//シーン切り替え
@@ -78,6 +80,19 @@ void TitleDraw(void) {
 			GetColor(255, 255, 255),
 			"%s%s", AppSceneName[NowAppScene], "描画中");
 	}
+
+	//マウス機能テスト
+	DrawCircle(GetOldPointMouse().x, GetOldPointMouse().y,  //以前のマウスの位置
+			   20,											//円の大きさ
+			   GetColor(0, 255, 0),							//円の色　　　　　
+			   TRUE);										//円を塗りつぶす　　　　　
+
+	DrawCircle(GetPointMouse().x, GetPointMouse().y,		//現在のマウスの位置
+			   abs(GetWheelMouse()) * 100 + 10,	//マウスのホイール量（＋とーがあるので絶対値）を使用して計算
+			   GetColor(255, 0, 0),							//円の色
+			   TRUE);										//円を塗りつぶす
+
+
 	return;
 }
 
@@ -117,7 +132,8 @@ void PlayProc(void)
 	AppSceneFrameCount[NowAppScene]++;
 
 	//シーン切り替え
-	if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
+	//if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
+	if (MouseDown(MOUSE_INPUT_LEFT) == TRUE //マウスの左ボタンが押されたとき
 		&& AppSceneFrameCount[NowAppScene] >= AppSceneChangeFrame) //かつ、切り替え可能なフレーム数を超えたら
 	{
 		//シーン切り替え
@@ -180,7 +196,8 @@ void ResultProc(void)
 	AppSceneFrameCount[NowAppScene]++;
 
 	//シーン切り替え
-	if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
+	if (MouseDown(MOUSE_INPUT_LEFT) == TRUE //マウスの左ボタンが押されたとき
+		//if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
 		&& AppSceneFrameCount[NowAppScene] >= AppSceneChangeFrame) //かつ、切り替え可能なフレーム数を超えたら
 	{
 		//シーン切り替え

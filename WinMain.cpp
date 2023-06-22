@@ -1,9 +1,11 @@
+//
 // WinMain.cpp
 //
 #include <DxLib.h>
 #include "fps.h"
 #include "game.h"
 #include "key.h"
+#include "mouse.h"
 #include <cmath>
 #include <boost\format.hpp>
 
@@ -12,8 +14,8 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 				   _In_	LPSTR lpCmdLine, // LPSTR or PSTR
 				   _In_	int	nCmdShow)
 {
-	// Log.txtの出力
-#ifndef _DEBUG // ifndef or
+// Log.txtの出力
+#ifndef _DEBUG // ifndef or ifdef
 	SetOutApplicationSystemLogValidFlag(FALSE); // log.txt
 #endif
 
@@ -41,15 +43,14 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 	//FPSの初期化
 	FPSInit();
 
-	//キーボードの初期化
+	//キーボードとマウスの初期化
 	KeyInit();
+	MouseInit();
 
 	//タイトルシーンを初期化
 	TitleInit();
-
 	//最初のシーンはタイトルから
 	NowAppScene = TitleScene;
-
 	//次のシーンもタイトルか
 	ChangeAppScene = TitleScene;
 
@@ -72,6 +73,7 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 		{
 			FPSCheck(); //FPS計測
 			KeyUpdate(); //キーボード更新
+			MouseUpdate(); //マウスの更新
 			////////////////////////////
 
 			//次のシーンを初期化

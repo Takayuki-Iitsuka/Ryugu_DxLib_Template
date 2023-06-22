@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="key.cpp" />
+    <ClCompile Include="mouse.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="fps.cpp" />
   </ItemGroup>
@@ -92,6 +93,7 @@
     <ClInclude Include="fps.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="key.h" />
+    <ClInclude Include="mouse.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
