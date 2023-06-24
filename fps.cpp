@@ -60,8 +60,8 @@ void FPSDraw(void)
 void FPSWait(void)
 {
 	//早すぎたときに待機するミリ秒
-	//int wait = 0;
-	float wait = 0;
+	int wait = 0;
+	//float wait = 0;
 	//待ち時間を計測
 	wait =
 		MicroSecond / W_FPS * fps.FrameCount		//理想の時間

@@ -20,6 +20,9 @@
 
 #define AppSceneChangeFrame 60 //アプリシーンの切り替えを可能にするフレーム数
 
+//色系
+#define Color_black		GetColor(0,0,0)
+
 //列挙型
 
 //アプリシーン

@@ -1,6 +1,7 @@
 // mouse.cpp
 #include "mouse.h"
 #include "game.h"
+#include "geometory.h"
 
 //グローバル変数
 MousePoint NowPoint; //現在のマウスの位置
@@ -167,7 +168,7 @@ BOOL MouseClick(int MOUSE_INPUT_)
 		}
 	}
 
-	return FALSE;
+	return FALSE; //押してない
 }
 
 //特定のボタンを押したフレーム数
@@ -203,10 +204,10 @@ MousePoint GetOldPointMouse(void)
 //マウスの以前と現在の位置の差を取得する
 MousePoint GetDiffPointMouse(void)
 {
-	MousePoint diff;
+	MousePoint diff{};
 	diff.x = OldPoint.x - NowPoint.x;
 	diff.y = OldPoint.y - NowPoint.y;
-	
+
 	return diff;
 }
 
@@ -215,5 +216,104 @@ int GetWheelMouse(void)
 {
 	return NowWheelValue;
 }
+
+//矩形とマウスの点が当たっているか？
+BOOL CollRectToMousePoint(RECT rect)
+{
+	if (rect.left <= NowPoint.x
+		&& rect.top <= NowPoint.y
+		&& rect.right <= NowPoint.x
+		&& rect.bottom <= NowPoint.y)
+	{
+		//当たっている
+		return TRUE;
+	}
+	//当たっていない
+	return FALSE;
+}
+
+//画面とマウスの点が当たっているか？
+//※画面内のどこかに、マウスがある
+BOOL CollWindowToMousePoint(void)
+{
+	RECT Window{}; //画面の矩形
+
+	Window.left = 0;
+	Window.top = 0;
+	Window.right = W_Width;
+	Window.bottom = W_Height;
+
+	//この関数の結果をそのまま返す
+	return CollRectToMousePoint(Window);
+}
+
+//矩形内でマウスのボタンを押したか？
+BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_)
+{
+	//矩形内で
+	if (CollRectToMousePoint(rect) == TRUE)
+	{
+		//ボタンを押したか？
+		if (MouseDown(MOUSE_INPUT_) == TRUE)
+		{
+			//押した
+			return TRUE;
+		}
+	}
+	//押してない
+	return FALSE;
+}
+
+//矩形内でマウスのボタンをクリックしたか？
+BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_)
+{
+	//矩形内で
+	if (CollRectToMousePoint(rect) == TRUE)
+	{
+		//ボタンをクリックした
+		if (MouseClick(MOUSE_INPUT_) == TRUE)
+		{
+			//クリックした
+			return TRUE;
+		}
+	}
+	//クリックしてない
+	return FALSE;
+}
+
+//画面内のどこかでマウスのボタンを押したか？
+BOOL CollWindowToMouseDown(int MOUSE_INPUT_)
+{
+	//画面内で
+	if (CollWindowToMousePoint() == TRUE)
+	{
+		//ボタンは押したか？
+		if (MouseDown(MOUSE_INPUT_) == TRUE)
+		{
+			//押した
+			return TRUE;
+		}
+	}
+	//押してない
+	return FALSE;
+}
+
+//画面内のどこかでマウスのボタンをクリックしたか？
+BOOL CollWindowToMouseClick(int MOUSE_INPUT_)
+{
+	//矩形内で
+	if (CollWindowToMousePoint() == TRUE)
+	{
+		//ボタンをクリックしたか？
+		if (MouseClick(MOUSE_INPUT_) == TRUE)
+		{
+			//クリックした
+			return TRUE;
+		}
+	}
+	//クリックしてない
+	return FALSE;
+}
+
 
 // End

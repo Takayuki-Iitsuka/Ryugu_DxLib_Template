@@ -29,4 +29,18 @@ extern MousePoint GetDiffPointMouse(void); //ƒ}ƒEƒX‚ÌˆÈ‘O‚ÆŒ»İ‚ÌˆÊ’u‚Ì·‚ğæ“¾‚
 
 extern int GetWheelMouse(void); //ƒ}ƒEƒX‚ÌŒ»İ‚ÌƒzƒC[ƒ‹—Ê‚ğæ“¾‚·‚é
 
+extern BOOL CollRectToMousePoint(RECT rect); //‹éŒ`‚Æƒ}ƒEƒX‚Ì“_‚ª“–‚½‚Á‚Ä‚¢‚é‚©H
+extern BOOL CollWindowToMousePoint(void); //‰æ–Ê‚Æƒ}ƒEƒX‚Ì“_‚ª“–‚½‚Á‚Ä‚¢‚é‚©H
+
+//‹éŒ`“à‚Åƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚©H
+extern BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_);
+//‹éŒ`“à‚Åƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½‚©H
+extern BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_);
+
+//‰æ–Ê“à‚Ì‚Ç‚±‚©‚Åƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚©H
+extern BOOL CollWindowToMouseDown(int MOUSE_INPUT_);
+//‰æ–Ê“à‚Ì‚Ç‚±‚©‚Åƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚µ‚½‚©H
+extern BOOL CollWindowToMouseClick(int MOUSE_INPUT_);
+
+
 // End

@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="geometory.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -92,6 +93,7 @@
   <ItemGroup>
     <ClInclude Include="fps.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="geometory.h" />
     <ClInclude Include="key.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="resource.h" />

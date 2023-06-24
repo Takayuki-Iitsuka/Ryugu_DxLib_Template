@@ -2,6 +2,7 @@
 #include "game.h"
 #include "key.h"
 #include "mouse.h"
+#include "geometory.h"
 
 //グローバル変数
 
@@ -35,7 +36,7 @@ void TitleInit(void)
 
 		//適切なシーンの初期化ができているかテスト
 		ScreenFlip(); //ここで敢えて裏画面を描画
-		WaitTimer(2000); //その後、適当に待つ
+		WaitTimer(1000); //その後、適当に待つ
 	}
 	//シーンを切り替えたフレーム数を初期化
 	AppSceneFrameCount[ChangeAppScene] = 0;
@@ -56,8 +57,13 @@ void TitleProc(void)
 	AppSceneFrameCount[NowAppScene]++;
 
 	//シーン切り替え
+	
 	//if (KeyDown(KEY_INPUT_SPACE) == TRUE //スペースが押された時
 	if (MouseDown(MOUSE_INPUT_LEFT) == TRUE //マウスの左ボタンが押されたとき
+	//if (CollWindowToMousePoint() == TRUE //画面内にマウスの座標があるとき
+	//if (CollRectToMouseClick(GetRect(0, 0, W_Width, W_Height), MOUSE_INPUT_LEFT) == TRUE //画面内にマウスの座標があるとき
+
+	//if (CollWindowToMouseClick(MOUSE_INPUT_LEFT) == TRUE //画面内にマウスの座標があり左クリックしたとき
 		&& AppSceneFrameCount[NowAppScene] >= AppSceneChangeFrame) //かつ、切り替え可能なフレーム数を超えたら
 	{
 		//シーン切り替え
@@ -92,7 +98,6 @@ void TitleDraw(void) {
 			   GetColor(255, 0, 0),							//円の色
 			   TRUE);										//円を塗りつぶす
 
-
 	return;
 }
 
@@ -110,7 +115,7 @@ void PlayInit(void)
 
 		//適切なシーンの初期化ができているかテスト
 		ScreenFlip(); //ここで敢えて裏画面を描画
-		WaitTimer(2000); //その後、適当に待つ
+		WaitTimer(1000); //その後、適当に待つ
 	}
 	//シーンを切り替えたフレーム数を初期化
 	AppSceneFrameCount[ChangeAppScene] = 0;
@@ -122,7 +127,6 @@ void PlayCtrl(void)
 {
 	PlayProc(); //処理をしてから
 	PlayDraw(); //描画する
-
 	return;
 }
 //プレイ処理
@@ -174,7 +178,7 @@ void ResultInit(void)
 
 		//適切なシーンの初期化ができているかテスト
 		ScreenFlip(); //ここで敢えて裏画面を描画
-		WaitTimer(2000); //その後、適当に待つ
+		WaitTimer(1000); //その後、適当に待つ
 	}
 
 	//シーンを切り替えたフレーム数を初期化
