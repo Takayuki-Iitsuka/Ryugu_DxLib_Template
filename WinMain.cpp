@@ -1,12 +1,20 @@
 //
 // WinMain.cpp
 //
+// リュウグウ・アーカイブス
+// https://www.youtube.com/@user-wn3lb2po1y
+// 
+// はじめてのDXﾗｲﾌﾞﾗﾘ
+// https://youtube.com/playlist?list=PL4B4qq0SOLcVX1FSTZl2ugrfF8AYFdTRW
+//
+
 #include <DxLib.h>
 #include "fps.h"
 #include "game.h"
 #include "key.h"
 #include "mouse.h"
-#include <cmath>
+
+#include <math.h>
 #include <boost\format.hpp>
 
 // Windows Main 関数
@@ -40,6 +48,9 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 	//裏画面に描画する（ダブルバッファリング）
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	//ソフト画面を初期化
+	AppInit();
+
 	//FPSの初期化
 	FPSInit();
 
@@ -49,10 +60,6 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 
 	//タイトルシーンを初期化
 	TitleInit();
-	//最初のシーンはタイトルから
-	NowAppScene = TitleScene;
-	//次のシーンもタイトルか
-	ChangeAppScene = TitleScene;
 
 	//無限ループ（ゲームループ）
 	while (TRUE)
@@ -62,6 +69,7 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 		{
 			break; //無限ループから出る（ゲーム終了）
 		}
+
 		//画面を消去する（１ループずつ書き換える）
 		if (ClearDrawScreen() != 0)
 		{

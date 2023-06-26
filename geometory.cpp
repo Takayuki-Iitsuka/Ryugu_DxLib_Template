@@ -8,7 +8,7 @@
 //X’n“_‚ÆY’n“_‚©‚çPOINTŒ^‚ğˆê“I‚Éæ“¾
 POINT GetPoint(int x, int y)
 {
-	POINT pt{};
+	POINT pt;
 
 	pt.x = x;
 	pt.y = y;
@@ -32,7 +32,7 @@ BOOL CollPointToPoint(POINT a, POINT b)
 //¶ã‰E‰º‚©‚çRECTŒ^‚ğˆê“I‚Éæ“¾
 RECT GetRect(int left, int top, int right, int bottom)
 {
-	RECT rect{};
+	RECT rect;
 
 	rect.left = left;
 	rect.top = top;
@@ -84,6 +84,99 @@ void DrawRect(RECT rect, unsigned int color, BOOL fill)
 		color,
 		fill
 	);
+
+	return;
+}
+
+//‰~ŠÖŒW
+//CIRCLEŒ^‚ğˆê“I‚Éæ“¾
+CIRCLE GetCircle(POINT pt, float rad)
+{
+	CIRCLE c;
+
+	c.pt = pt;
+	c.radius = rad;
+
+	return c;
+}
+
+//‰~‚Æ‰~‚ª“–‚½‚Á‚Ä‚¢‚é‚©H
+BOOL CollCircleToCircle(CIRCLE C1, CIRCLE C2)
+{
+	//OŠpŒ`‚ğ‚Â‚­‚é
+	float a = 0.0f;
+	float b = 0.0f;
+	float c = 0.0f;
+
+	a = C1.pt.x - C2.pt.x;
+	b = C1.pt.y - C2.pt.y;
+	c = sqrt(a * a + b * b);
+
+	if (c <= C1.radius + C2.radius)
+	{
+		//“–‚½‚Á‚Ä‚¢‚é
+		return TRUE;
+	}
+
+	/*
+		//‚‘¬ˆ—”Å
+		a = C1.pt.x - C2.pt.x;
+		b = C1.pt.y - C2.pt.y;
+		c = a * a + b * b;
+		float rad = C1.radius + C2.radius; //”¼Œa‚ÌŒvZ
+
+		if (c <= (rad * rad))
+		{
+			//“–‚½‚Á‚Ä‚¢‚é
+			return TRUE;
+		}
+	*/
+
+	//“–‚½‚Á‚Ä‚¢‚È‚¢
+	return FALSE;
+}
+
+//‰~‚Æ“_‚ª“–‚½‚Á‚Ä‚¢‚é‚©H
+BOOL CollCircleToPoint(CIRCLE circle, POINT pt)
+{
+	//OŠpŒ`‚ğ‚Â‚­‚é
+	float a = 0.0f;
+	float b = 0.0f;
+	float c = 0.0f;
+
+	a = circle.pt.x - pt.x;
+	b = circle.pt.y - pt.y;
+	c = sqrt(a * a + b * b);
+
+	if (c <= circle.radius)
+	{
+		//“–‚½‚Á‚Ä‚¢‚é
+		return TRUE;
+	}
+
+	/*
+		//‚‘¬ˆ—”Å
+		a = C1.pt.x - C2.pt.x;
+		b = C1.pt.y - C2.pt.y;
+		c = a * a + b * b;
+		float rad = C1.radius + C2.radius; //”¼Œa‚ÌŒvZ
+
+		if (c <= (rad * rad))
+		{
+			//“–‚½‚Á‚Ä‚¢‚é
+			return TRUE;
+		}
+	*/
+
+	//“–‚½‚Á‚Ä‚¢‚È‚¢
+	return FALSE;
+}
+
+//CIRCLEŒ^‚Å•`‚­
+void DrawEn(CIRCLE circle, unsigned int color, BOOL fill)
+{
+	//‰~‚ğ•`‚­
+	DrawCircle(circle.pt.x, circle.pt.y, circle.radius, color, fill);
 
 	return;
 }

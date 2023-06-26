@@ -14,4 +14,4 @@ extern BOOL KeyDown(int KEY_INPUT_); //特定のキーを押したか？
 extern BOOL KeyClick(int KEY_INPUT_); //特定のキーをクリックしたか？
 extern int KeyPressFrame(int KEY_INPUT_); //特定のキーを押したフレーム数
 
-// Emd
+// End

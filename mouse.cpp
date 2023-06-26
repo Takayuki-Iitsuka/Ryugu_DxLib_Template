@@ -1,11 +1,13 @@
+//
 // mouse.cpp
+//マウス処理のソースファイル
+//
 #include "mouse.h"
 #include "game.h"
-#include "geometory.h"
 
 //グローバル変数
-MousePoint NowPoint; //現在のマウスの位置
-MousePoint OldPoint; //以前のマウスの位置
+POINT NowPoint; //現在のマウスの位置
+POINT OldPoint; //以前のマウスの位置
 
 int NowMousePressFrame[MouseKindMax]; //現在のマウスのボタンを押しているフレーム数を管理
 int OldMousePressFrame[MouseKindMax]; //以前のマウスのボタンを押しているフレーム数を管理
@@ -27,7 +29,7 @@ int MouseCodeIndex[MouseKindMax]
 };
 
 //Now???系の値をOld系へ入れる
-void MouseNowIntoOld(void)
+void MouseNowInToOld(void)
 {
 	OldPoint = NowPoint; //マウスの位置
 
@@ -73,7 +75,7 @@ void MouseInit(void)
 	//ホイール量
 	NowWheelValue = 0;
 	//Old系も初期化
-	MouseNowIntoOld();
+	MouseNowInToOld();
 
 	return;
 }
@@ -85,10 +87,14 @@ void MouseUpdate(void)
 	int Input;
 
 	//現在の情報を以前の情報として保存
-	MouseNowIntoOld();
+	MouseNowInToOld();
+
+	int GetX, GetY; //取得用のXY座標
 
 	//現在のマウスのクライアント座標の位置を取得
-	GetMousePoint(&NowPoint.x, &NowPoint.y);
+	GetMousePoint(&GetX, &GetY);
+	//マウスの座標を入れる
+	NowPoint = GetPoint(GetX, GetY);
 
 	//もし、マウスの座標がゲーム画面外にあるなら、ゲーム画面内に収める
 	if (NowPoint.x < 0) { NowPoint.x = 0; } //左
@@ -145,8 +151,7 @@ BOOL MouseDown(int MOUSE_INPUT_)
 			return TRUE; //押している
 		}
 	}
-
-	return FALSE;
+	return FALSE; //押していない
 }
 
 //特定のボタンをクリックしたか？
@@ -167,8 +172,7 @@ BOOL MouseClick(int MOUSE_INPUT_)
 			return TRUE; //押している
 		}
 	}
-
-	return FALSE; //押してない
+	return FALSE; //押していない
 }
 
 //特定のボタンを押したフレーム数
@@ -184,27 +188,25 @@ int  MousePressFrame(int MOUSE_INPUT_)
 	{
 		return NowMousePressFrame[MOUSE_INPUT_];
 	}
-
 	return 0;
 }
 
-
 //マウスの現在の位置を取得する
-MousePoint GetPointMouse(void)
+POINT GetPointMouse(void)
 {
 	return NowPoint;
 }
 
 //マウスの以前の位置を取得する
-MousePoint GetOldPointMouse(void)
+POINT GetOldPointMouse(void)
 {
 	return OldPoint;
 }
 
 //マウスの以前と現在の位置の差を取得する
-MousePoint GetDiffPointMouse(void)
+POINT GetDiffPointMouse(void)
 {
-	MousePoint diff{};
+	POINT diff;
 	diff.x = OldPoint.x - NowPoint.x;
 	diff.y = OldPoint.y - NowPoint.y;
 
@@ -217,41 +219,17 @@ int GetWheelMouse(void)
 	return NowWheelValue;
 }
 
-//矩形とマウスの点が当たっているか？
-BOOL CollRectToMousePoint(RECT rect)
+//矩形とマウスの座標が当たっているか？
+BOOL CollRectToMouse(RECT rect)
 {
-	if (rect.left <= NowPoint.x
-		&& rect.top <= NowPoint.y
-		&& rect.right <= NowPoint.x
-		&& rect.bottom <= NowPoint.y)
-	{
-		//当たっている
-		return TRUE;
-	}
-	//当たっていない
-	return FALSE;
-}
-
-//画面とマウスの点が当たっているか？
-//※画面内のどこかに、マウスがある
-BOOL CollWindowToMousePoint(void)
-{
-	RECT Window{}; //画面の矩形
-
-	Window.left = 0;
-	Window.top = 0;
-	Window.right = W_Width;
-	Window.bottom = W_Height;
-
-	//この関数の結果をそのまま返す
-	return CollRectToMousePoint(Window);
+	return CollRectToPoint(rect, NowPoint);
 }
 
 //矩形内でマウスのボタンを押したか？
 BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_)
 {
 	//矩形内で
-	if (CollRectToMousePoint(rect) == TRUE)
+	if (CollRectToMouse(rect) == TRUE)
 	{
 		//ボタンを押したか？
 		if (MouseDown(MOUSE_INPUT_) == TRUE)
@@ -268,7 +246,7 @@ BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_)
 BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_)
 {
 	//矩形内で
-	if (CollRectToMousePoint(rect) == TRUE)
+	if (CollRectToMouse(rect) == TRUE)
 	{
 		//ボタンをクリックした
 		if (MouseClick(MOUSE_INPUT_) == TRUE)
@@ -281,28 +259,41 @@ BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_)
 	return FALSE;
 }
 
-//画面内のどこかでマウスのボタンを押したか？
-BOOL CollWindowToMouseDown(int MOUSE_INPUT_)
+//円内でマウスの座標が当たっているか？
+BOOL CollCircleToMouse(CIRCLE circle)
 {
-	//画面内で
-	if (CollWindowToMousePoint() == TRUE)
+	return CollCircleToPoint(circle, NowPoint);
+}
+
+//円とマウスの点が当たっているか？
+BOOL CollCircleToMousePoint(CIRCLE circle)
+{
+	//円と点の当たり判定の結果をそのまま返す
+	return CollCircleToMouse(circle);
+}
+
+//円内でマウスのボタンを押したか？
+BOOL CollCircleToMouseDown(CIRCLE circle, int MOUSE_INPUT_)
+{
+	//円内で
+	if (CollCircleToMouse(circle) == TRUE)
 	{
-		//ボタンは押したか？
+		//ボタンを押したか？
 		if (MouseDown(MOUSE_INPUT_) == TRUE)
 		{
 			//押した
 			return TRUE;
 		}
 	}
-	//押してない
+	//押していない
 	return FALSE;
 }
 
-//画面内のどこかでマウスのボタンをクリックしたか？
-BOOL CollWindowToMouseClick(int MOUSE_INPUT_)
+//円内でマウスのボタンをクリックしたか？
+BOOL CollCircleToMouseClick(CIRCLE circle, int MOUSE_INPUT_)
 {
-	//矩形内で
-	if (CollWindowToMousePoint() == TRUE)
+	//円内で
+	if (CollCircleToMouse(circle) == TRUE)
 	{
 		//ボタンをクリックしたか？
 		if (MouseClick(MOUSE_INPUT_) == TRUE)
@@ -311,9 +302,8 @@ BOOL CollWindowToMouseClick(int MOUSE_INPUT_)
 			return TRUE;
 		}
 	}
-	//クリックしてない
+	//クリックしていない
 	return FALSE;
 }
-
 
 // End

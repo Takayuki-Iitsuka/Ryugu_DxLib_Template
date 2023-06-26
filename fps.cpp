@@ -1,4 +1,5 @@
 // fps.cpp
+//FPS処理のソースコード
 #include "fps.h"
 
 //グローバル変数
@@ -51,7 +52,7 @@ void FPSCheck(void)
 //描画
 void FPSDraw(void)
 {
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "FPS:%3.1f", fps.Average);
+	DrawFormatString(0, 0, GetColor(255, 255, 255), "FPS:%3.3f", fps.Average);
 
 	return;
 }

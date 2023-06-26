@@ -2,19 +2,14 @@
 #pragma once
 
 #include "DxLib.h"
+#include "geometory.h"
 
 //マクロ定義
-#define MouseKindMax	8 //マウスボタンの種類
-#define MouseCodeErrIndex	999 //マウスコードを変更した要素数のエラー値
-
-//構造体
-typedef struct _MousePoint {
-	int x; //マウスのX位置
-	int y; //マウスのY位置
-} MousePoint;
+#define MouseKindMax       	8 //マウスボタンの種類
+#define MouseCodeErrIndex   999 //マウスコードを変更した要素数のエラー値
 
 //外部のプロトタイプ宣言
-extern void MouseNowIntoOld(void); //Now???系の値をOld系へ入れる
+extern void MouseNowInToOld(void); //Now???系の値をOld系へ入れる
 extern int MouseCodeToIndex(int MOUSE_INPUT_); //マウスのボタンオートを配列の要素数に変換する
 
 extern void MouseInit(void);			//マウス処理の初期化
@@ -23,24 +18,20 @@ extern BOOL MouseDown(int MOUSE_INPUT_);			//特定のボタンを押したか？
 extern BOOL MouseClick(int MOUSE_INPUT_);			//特定のボタンをクリックしたか？
 extern int  MousePressFrame(int MOUSE_INPUT_);	//特定のボタンを押したフレーム数
 
-extern MousePoint GetPointMouse(void); //マウスの現在の位置を取得する
-extern MousePoint GetOldPointMouse(void); //マウスの以前の位置を取得する
-extern MousePoint GetDiffPointMouse(void); //マウスの以前と現在の位置の差を取得する
-
+extern POINT GetPointMouse(void); //マウスの現在の位置を取得する
+extern POINT GetOldPointMouse(void); //マウスの以前の位置を取得する
+extern POINT GetDiffPointMouse(void); //マウスの以前と現在の位置の差を取得する
 extern int GetWheelMouse(void); //マウスの現在のホイール量を取得する
 
-extern BOOL CollRectToMousePoint(RECT rect); //矩形とマウスの点が当たっているか？
-extern BOOL CollWindowToMousePoint(void); //画面とマウスの点が当たっているか？
+//矩形
+extern BOOL CollRectToMouse(RECT rect);//矩形とマウスの座標が当たっているか？
+extern BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_);//矩形内でマウスのボタンを押したか？
+extern BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_);//矩形内でマウスのボタンをクリックしたか？
 
-//矩形内でマウスのボタンを押したか？
-extern BOOL CollRectToMouseDown(RECT rect, int MOUSE_INPUT_);
-//矩形内でマウスのボタンをクリックしたか？
-extern BOOL CollRectToMouseClick(RECT rect, int MOUSE_INPUT_);
-
-//画面内のどこかでマウスのボタンを押したか？
-extern BOOL CollWindowToMouseDown(int MOUSE_INPUT_);
-//画面内のどこかでマウスのボタンをクリックしたか？
-extern BOOL CollWindowToMouseClick(int MOUSE_INPUT_);
+//円
+extern BOOL CollCircleToMouse(CIRCLE circle);//円内でマウスの座標が当たっているか？
+extern BOOL CollCircleToMouseDown(CIRCLE circle, int MOUSE_INPUT_); //円内でマウスのボタンを押したか？
+extern BOOL CollCircleToMouseClick(CIRCLE circle, int MOUSE_INPUT_); //円内でマウスのボタンをクリックしたか？
 
 
 // End

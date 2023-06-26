@@ -1,4 +1,5 @@
 // fps.h
+//FPS処理のヘッダファイル
 #pragma once
 
 #include <DxLib.h>
@@ -9,7 +10,7 @@
 #define MillSecond		1000.0f //1ミリ秒
 #define WaitTimeMill	3000 //最大で待てるミリ秒
 
-//構造体の定義
+//構造体の定義＆名前の定義
 typedef struct _FPS {
 	LONGLONG FirstTakeTime = 0; //１フレーム目の計測時間
 	LONGLONG NowTakeTime = 0; //現在の計測時間
@@ -24,9 +25,9 @@ typedef struct _FPS {
 extern FPS fps;
 
 //外部プロトタイプ宣言
-extern void FPSInit(void);
-extern void FPSCheck(void);
-extern void FPSDraw(void);
-extern void FPSWait(void);
+extern void FPSInit(void); //FPS初期化
+extern void FPSCheck(void); //FPS計測
+extern void FPSDraw(void); //FPS描画
+extern void FPSWait(void); //FPS待機
 
 // End
