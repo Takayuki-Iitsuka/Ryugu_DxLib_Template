@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="geometory.cpp" />
     <ClCompile Include="key.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="fps.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="font.h" />
     <ClInclude Include="fps.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="geometory.h" />
@@ -106,6 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font\GenJyuuGothic-Normal.ttf" />
+    <Font Include="font\GenJyuuGothicL-Normal.ttf" />
+    <Font Include="font\GenJyuuGothicX-Normal.ttf" />
+    <Font Include="font\gomarice_mukasi_mukasi.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,16 +13,31 @@
 #include "game.h"
 #include "key.h"
 #include "mouse.h"
+#include "font.h"
 
 #include <math.h>
 #include <boost\format.hpp>
 
+//プロトタイプ宣言
+void AppAndDxLibAllEnd(void);
+
+//ゲーム終了の後始末
+//ここにEnd系を集める
+void AppAndDxLibAllEnd(void)
+{
+	Font_End(); //フォント終了
+	DxLib_End(); //DxLib終了
+
+	return;
+}
+
+/////////////////////////////////////////
 // Windows Main 関数
 int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 				   _In_	LPSTR lpCmdLine, // LPSTR or PSTR
 				   _In_	int	nCmdShow)
 {
-// Log.txtの出力
+	// Log.txtの出力
 #ifndef _DEBUG // ifndef or ifdef
 	SetOutApplicationSystemLogValidFlag(FALSE); // log.txt
 #endif
@@ -47,6 +62,15 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 
 	//裏画面に描画する（ダブルバッファリング）
 	SetDrawScreen(DX_SCREEN_BACK);
+
+	//フォント初期化
+	if (Font_Init() == FALSE)
+	{
+		//アプリの後始末
+		AppAndDxLibAllEnd();
+
+		return -1;
+	}
 
 	//ソフト画面を初期化
 	AppInit();
@@ -135,7 +159,9 @@ int WINAPI WinMain(_In_	HINSTANCE hInstance, _In_opt_ HINSTANCE	hPrevInstance,
 
 	} // main loop
 
-	DxLib_End(); //DxLib終了
+	//アプリの後始末
+	AppAndDxLibAllEnd();
+
 	return EXIT_SUCCESS; // ソフト終了 return 0;
 }
 

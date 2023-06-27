@@ -45,6 +45,8 @@ extern enum AppScene ChangeAppScene; // 切り替わるアプリシーン
 
 //外部のプロトタイプ宣言
 
+void mouse_test(void);
+
 extern void AppInit(void); //アプリ画面初期化
 extern HWND GetAppHandle(void); //アプリ画面もハンドルを取得
 extern RECT GetAppWindow(void); //アプリ画面の矩形を取得
@@ -65,5 +67,6 @@ extern void ResultInit(void); //リザルト初期化
 extern void ResultCtrl(void); //リザルト管理
 extern void ResultProc(void); //リザルト処理
 extern void ResultDraw(void); //リザルト描画
+
 
 // End

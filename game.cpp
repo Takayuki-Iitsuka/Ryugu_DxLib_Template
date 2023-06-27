@@ -12,6 +12,7 @@
 #include "key.h"
 #include "mouse.h"
 #include "geometory.h"
+#include "font.h"
 
 //グローバル変数
 
@@ -40,6 +41,24 @@ CIRCLE PlayCircle; //プレイ円
 CIRCLE ResultCircle; //リザルト円
 
 //関数
+
+//マウス機能テスト
+void mouse_test(void)
+{
+	DrawCircleAA(GetOldPointMouse().x, GetOldPointMouse().y,  //以前のマウスの位置
+				 20, 30,								//円の大きさ
+				 GetColor(0, 155, 50),	//円の色　　　　　
+				 TRUE);								//円を塗りつぶす　　　　　
+
+	DrawCircleAA(GetPointMouse().x, GetPointMouse().y,		//現在のマウスの位置
+				 //マウスのホイール量（＋とーがあるので絶対値）を使用して計算
+				 abs(GetWheelMouse()) * 100 + 10,
+				 30,
+				 GetColor(155, 100, 0),	//円の色
+				 TRUE);								//円を塗りつぶす
+
+	return;
+}
 
 //アプリ画面のハンドルを取得
 HWND GetAppHandle(void)
@@ -92,9 +111,10 @@ void TitleInit(void)
 	if (AppDebug == TRUE)
 	{
 		//シーン名表示
-		DrawFormatString(
-			W_Width - 200, 0,
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
 			GetColor(255, 255, 255),
+			fontDefault.Handle,
 			"%s%s", AppSceneName[ChangeAppScene], "初期化中......");
 
 		//適切なシーンの初期化ができているかテスト
@@ -151,9 +171,10 @@ void TitleDraw(void) {
 		DrawBox(20, 20, W_Width / 1.3, W_Height / 1.3, GetColor(176, 114, 223), TRUE);
 
 		//シーン名表示
-		DrawFormatString(
-			W_Width - 200, 0,
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
 			GetColor(255, 255, 255),
+			fontDefault.Handle,
 			"%s%s", AppSceneName[NowAppScene], "描画中......");
 	}
 
@@ -168,28 +189,33 @@ void TitleDraw(void) {
 		DrawEn(StartCircle, Color_white, TRUE);
 	}
 
-	
 	//マウス機能テスト
-	DrawCircle(GetOldPointMouse().x, GetOldPointMouse().y,  //以前のマウスの位置
-			   20,											//円の大きさ
-			   GetColor(0, 255, 0),							//円の色　　　　　
-			   TRUE);										//円を塗りつぶす　　　　　
-
-	DrawCircle(GetPointMouse().x, GetPointMouse().y,		//現在のマウスの位置
-			   abs(GetWheelMouse()) * 100 + 10,	//マウスのホイール量（＋とーがあるので絶対値）を使用して計算
-			   GetColor(255, 0, 0),							//円の色
-			   TRUE);										//円を塗りつぶす
-	//マウス機能テスト End
-	
+	mouse_test();
 
 	//とりあえずのシーン名を描画
-	//一時的にフォントのサイズを変更
-	//処理が重いので将来的にはフォントハンドルを生成する
+
 	SetFontSize(100);
-	DrawFormatString(GetAppWindowCenter().x - 170,
+
+	/*
+	//ChangeFontType(DX_FONTTYPE_ANTIALIASING_EDGE_8X8);
+	ChangeFont("源柔ゴシックL Normal");
+	DrawFormatString(GetAppWindowCenter().x - 250,
 					 GetAppWindowCenter().y,
 					 Color_black, "%s", "START!!!!!");
 	SetFontSize(16); //もとのぐらいに戻す
+	*/
+
+	ChangeFont("源柔ゴシックX Normal");
+
+	DrawFormatStringToHandleAlign(
+		GetAppWindowCenter().x, GetAppWindowCenter().y,
+		Align_AllCenter, Color_black,
+		fontDefault.Handle,
+		"%s", "START!!!!"
+	);
+
+	SetFontSize(16); //もとのぐらいに戻す
+
 
 	return;
 }
@@ -201,9 +227,16 @@ void PlayInit(void)
 	if (AppDebug == TRUE)
 	{
 		//シーン名表示
+		/*
 		DrawFormatString(
 			W_Width - 200, 0,
 			GetColor(255, 255, 255),
+			"%s%s", AppSceneName[ChangeAppScene], "初期化中......");
+			*/
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
+			GetColor(255, 255, 255),
+			fontDefault.Handle,
 			"%s%s", AppSceneName[ChangeAppScene], "初期化中......");
 
 		//適切なシーンの初期化ができているかテスト
@@ -259,9 +292,10 @@ void PlayDraw(void)
 		DrawBox(100, 100, W_Width / 1.8, W_Height / 1.8, GetColor(176, 114, 23), TRUE);
 
 		//シーン名表示
-		DrawFormatString(
-			W_Width - 200, 0,
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
 			GetColor(255, 255, 255),
+			fontDefault.Handle,
 			"%s%s", AppSceneName[NowAppScene], "描画中......");
 	}
 
@@ -276,6 +310,9 @@ void PlayDraw(void)
 		DrawEn(PlayCircle, Color_white, TRUE);
 	}
 
+	//マウス機能テスト
+	mouse_test();
+
 	//とりあえずのシーン名を描画
 	//一時的にフォントのサイズを変更
 	//処理が重いので将来的にはフォントハンドルを生成する
@@ -284,7 +321,13 @@ void PlayDraw(void)
 					 GetAppWindowCenter().y,
 					 Color_black, "%s", "PLAY!!!!!");
 	SetFontSize(16); //もとのぐらいに戻す
-
+	/*
+		DrawFormatStringToHandle(
+			W_Width - 220,  Color_black,
+			fontDefault.Handle,
+			"%s", "START!!!!"
+		);
+		*/
 	return;
 }
 
@@ -295,9 +338,10 @@ void ResultInit(void)
 	if (AppDebug == TRUE)
 	{
 		//シーン名表示
-		DrawFormatString(
-			W_Width - 200, 0,
-			GetColor(255, 255, 255),
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
+			Color_black,
+			fontDefault.Handle,
 			"%s%s", AppSceneName[ChangeAppScene], "初期化中......");
 
 		//適切なシーンの初期化ができているかテスト
@@ -350,12 +394,13 @@ void ResultDraw(void)
 	if (AppDebug == TRUE)
 	{
 		//適当に描画
-		//DrawBox(150, 160, W_Width / 1.5, W_Height / 1.5, GetColor(216, 14, 223), TRUE);
+		DrawBox(150, 160, W_Width / 1.5, W_Height / 1.5, GetColor(216, 14, 223), TRUE);
 
 		//シーン名表示
-		DrawFormatString(
-			W_Width - 200, 0,
+		DrawFormatStringToHandle(
+			W_Width - 250, 0,
 			GetColor(255, 255, 255),
+			fontDefault.Handle,
 			"%s%s", AppSceneName[NowAppScene], "描画中......");
 	}
 
@@ -369,6 +414,9 @@ void ResultDraw(void)
 		//円の描画
 		DrawEn(PlayCircle, Color_white, TRUE);
 	}
+
+	//マウス機能テスト
+	mouse_test();
 
 	//とりあえずのシーン名を描画
 	//一時的にフォントのサイズを変更
